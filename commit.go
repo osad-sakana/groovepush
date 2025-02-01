@@ -18,7 +18,7 @@ import (
 // 指定フォルダを再起的にzip化する(.groovepushディレクトリは除外)
 func zipFolder(srcDir, dstZip string) error {
 	zipFile, err := os.Create(dstZip)
-	if err != nil {
+	if (err != nil) {
 		return err
 	}
 	defer zipFile.Close()
@@ -32,8 +32,8 @@ func zipFolder(srcDir, dstZip string) error {
 			return err
 		}
 
-		// .groovepushディレクトリは除外
-		if strings.Contains(path, ".groovepush") {
+		// .groovepushディレクトリと.gitディレクトリは除外
+		if strings.Contains(path, ".groovepush") || strings.Contains(path, ".git") {
 			return nil
 		}
 
