@@ -61,9 +61,9 @@ func findArchiveByCommitID(commitID string) (string, error) {
 	for _, c := range commits {
 		commitObj := c.(map[string]interface{})
 		if commitObj["id"] == commitID {
-			archiveVal, ok := commitObj["archivePath"].(string)
+			archiveVal, ok := commitObj["archive"].(string)
 			if !ok || archiveVal == "" {
-				return "", fmt.Errorf("archivePath not found in JSON or not a string for commit: %s", commitID)
+				return "", fmt.Errorf("archive not found in JSON or not a string for commit: %s", commitID)
 			}
 			return archiveVal, nil
 		}
