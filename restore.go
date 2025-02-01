@@ -12,7 +12,7 @@ import (
 )
 
 var restoreCmd = &cobra.Command{
-	Use: "restore",
+	Use: "restore <commit_id>",
 	Short: "Restore the project files from a specific commit",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if len(args) < 1 {
