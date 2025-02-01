@@ -8,7 +8,7 @@ import (
 
 var rootCmd = &cobra.Command{
 	Use: "groovepush",
-	Short: "A simple CLI to locally version-control your music project files"
+	Short: "A simple CLI to locally version-control your music project files",
 }
 
 func Execute() {
