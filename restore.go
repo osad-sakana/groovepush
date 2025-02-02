@@ -81,20 +81,20 @@ func unzipToCurrent(archivePath string) error {
 
 	for _, f := range zipReader.File {
 		// ディレクトリかどうかチェック
-        fPath := filepath.Join(".", f.Name)
+		fPath := filepath.Join(".", f.Name)
 
-        // セキュリティ対策: zip のエントリに .. などが含まれていてもルートを飛び出さないようにする
-        if !strings.HasPrefix(filepath.Clean(fPath), ".") {
-            return fmt.Errorf("illegal file path: %s", fPath)
-        }
+		// セキュリティ対策: zip のエントリに .. などが含まれていてもルートを飛び出さないようにする
+		if !strings.HasPrefix(filepath.Clean(fPath), filepath.Clean(".")) {
+			return fmt.Errorf("illegal file path: %s", fPath)
+		}
 
-        if f.FileInfo().IsDir() {
-            // ディレクトリの場合
-            if err := os.MkdirAll(fPath, f.Mode()); err != nil {
-                return err
-            }
-            continue
-        }
+		if f.FileInfo().IsDir() {
+			// ディレクトリの場合
+			if err := os.MkdirAll(fPath, f.Mode()); err != nil {
+				return err
+			}
+			continue
+		}
 
         // ファイルの場合
         if err := os.MkdirAll(filepath.Dir(fPath), 0755); err != nil {
