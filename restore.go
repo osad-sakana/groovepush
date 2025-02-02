@@ -88,7 +88,11 @@ func unzipToCurrent(archivePath string) error {
 		if err != nil {
 			return err
 		}
-		if !strings.HasPrefix(absPath, filepath.Clean(".")) {
+		rootPath, err := filepath.Abs(".")
+		if err != nil {
+			return err
+		}
+		if !strings.HasPrefix(absPath, rootPath) {
 			return fmt.Errorf("illegal file path: %s", fPath)
 		}
 
