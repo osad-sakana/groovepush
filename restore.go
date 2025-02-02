@@ -84,7 +84,11 @@ func unzipToCurrent(archivePath string) error {
 		fPath := filepath.Join(".", f.Name)
 
 		// セキュリティ対策: zip のエントリに .. などが含まれていてもルートを飛び出さないようにする
-		if !strings.HasPrefix(filepath.Clean(fPath), filepath.Clean(".")) {
+		absPath, err := filepath.Abs(fPath)
+		if err != nil {
+			return err
+		}
+		if !strings.HasPrefix(absPath, filepath.Clean(".")) {
 			return fmt.Errorf("illegal file path: %s", fPath)
 		}
 
@@ -96,10 +100,10 @@ func unzipToCurrent(archivePath string) error {
 			continue
 		}
 
-        // ファイルの場合
-        if err := os.MkdirAll(filepath.Dir(fPath), 0755); err != nil {
-            return err
-        }
+		// ファイルの場合
+		if err := os.MkdirAll(filepath.Dir(fPath), 0755); err != nil {
+			return err
+		}
         dstFile, err := os.OpenFile(fPath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, f.Mode())
         if err != nil {
             return err
